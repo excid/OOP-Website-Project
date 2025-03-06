@@ -2,7 +2,6 @@ from fasthtml.common import *
 from fastapi import FastAPI, Request, Form, status
 import component
 from database import account
-import account_details as account_details
 
 def account_details_page():
     # Render the account details
@@ -50,16 +49,11 @@ def account_details_page():
         style="width:100%; min-height: 100vh; background-color:white; color:black;",
     )
 
-def setup_route(rt):
-####### common menu route
-    @rt("/go-to-account-details")
-    def get():
-        return RedirectResponse(url="/account-details", status_code=status.HTTP_303_SEE_OTHER)
-
+def setup_routes(rt):
     ####### account details page
     @rt("/account-details")
     def get():
-        return account_details.account_details_page()
+        return account_details_page()
 
 
     @rt("/account-details-edit")
