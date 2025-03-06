@@ -9,7 +9,7 @@ def display_data_component():
                 Img(
                     src="./image/edit.png",
                     style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;",
-                    hx_get="/edit",
+                    hx_get="/account-details-edit",
                     hx_target="#main-content",
                 ),
                 style="display:flex;",
@@ -57,7 +57,7 @@ def edit_data_component():
             Img(
                 src="./image/edit.png",
                 style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;",
-                hx_get="/back-from-edit",
+                hx_get="/account-details-back-from-edit",
                 hx_target="#main-content",
             ),
             style="display:flex;",
@@ -112,7 +112,7 @@ def edit_data_component():
                 style="margin-top: 30px; display: flex; justify-content: flex-end;",
             ),
             style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; border-radius: 8px;",
-            action="/save-changes",
+            action="/account-details-save-changes",
             method="post",
         ),
         style="background-color: white; min-height: 100vh;",

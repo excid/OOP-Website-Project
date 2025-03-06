@@ -10,17 +10,17 @@ app, rt = fast_app()
 def get():
     return account_details.account_details_page()
 
-@rt("/edit")
+@rt("/account-details-edit")
 def get():
     return Component.edit_data_component()
 
 
-@rt("/back-from-edit")
+@rt("/account-details-back-from-edit")
 def get():
     return Component.display_data_component()
 
 
-@rt("/save-changes")
+@rt("/account-details-save-changes")
 def post(
     email: str,
     name: str,
