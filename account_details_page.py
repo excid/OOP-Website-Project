@@ -1,0 +1,47 @@
+from fasthtml.common import *
+import Component
+import Data
+
+def account_details_page():
+    # Render the account details
+    return Div(
+        Header(
+            "View Details",
+            style="font-weight: 600; text-align:center; font-size: 30px;",
+        ),
+        Body(
+            "You can view details or manage your account here.",
+            style="text-align:center;",
+        ),
+        Hr(),
+        # Main Container (Sidebar + Content)
+        Div(
+            # Sidebar (Left Side)
+            Div(
+                Button(
+                    "Account Details",
+                    style="text-align:left; color:black; background: transparent; border: none; cursor: pointer; height:45px; width:100%; outline: none;",
+                ),
+                Hr(style="width:100%;text-align:left;margin-left:0;"),
+                Button(
+                    "View Orders",
+                    style="text-align:left; color:black; background: transparent; border: none; cursor: pointer; height:45px; width:100%; outline: none;",
+                ),
+                Hr(style="width:100%;text-align:left;margin-left:0;"),
+                Button(
+                    "Logout",
+                    style="text-align:left; color:red; background: transparent; border: none; cursor: pointer; height:45px; width:100%; outline: none;",
+                ),
+                Hr(style="width:100%;text-align:left;margin-left:0;"),
+                style="width: 25%; min-width: 200px; padding: 20px; border-right: 1px solid #ccc;",
+            ),
+            # Account Details (Right Side) - Aligned to the Left
+            Div(
+                Component.display_data_component(),
+                style="width: 75%; padding: 20px; text-align:left;",
+            ),
+            # Apply Flexbox
+            style="display: flex; width: 100%;",
+        ),
+        style="width:100%; min-height: 100vh; background-color:white; color:black;",
+    )
