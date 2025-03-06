@@ -2,14 +2,16 @@ from fasthtml.common import *
 from fastapi import FastAPI, Request, Form, status
 import Component
 import Data
-import page.account_details as account_details 
+import page.account_details as account_details
 
 app, rt = fast_app()
+
 
 ####### account details page
 @rt("/account-details")
 def get():
     return account_details.account_details_page()
+
 
 @rt("/account-details-edit")
 def get():
@@ -40,7 +42,11 @@ def post(
         tel,
         [country, street_address, apt, suburb, city, province, postal_code],
     )
-    return RedirectResponse(url="/account-details", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse(
+        url="/account-details", status_code=status.HTTP_303_SEE_OTHER
+    )
+
+
 #######
 
 serve()

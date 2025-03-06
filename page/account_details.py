@@ -1,6 +1,7 @@
 from fasthtml.common import *
 import Component
 
+
 def account_details_page():
     # Render the account details
     return Div(

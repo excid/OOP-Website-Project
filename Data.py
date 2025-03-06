@@ -1,7 +1,9 @@
 import Class
 
 platform = Class.Platform()
-sample_account = Class.Account("example@example.com", "password123", "John Doe", "johndoe")
+sample_account = Class.Account(
+    "example@example.com", "password123", "John Doe", "johndoe"
+)
 sample_account.edit_data(
     "example@example.com",
     "John Doe",

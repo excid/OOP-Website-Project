@@ -1,6 +1,7 @@
 from fasthtml.common import *
 import Data
 
+
 def display_data_component():
     return (
         Div(
@@ -94,7 +95,12 @@ def edit_data_component():
                     ("Apt, suite, etc.:", Data.account.location.apt, "apt", "apt"),
                     ("Suburb:", Data.account.location.suburb, "suburb", "suburb"),
                     ("City:", Data.account.location.city, "city", "city"),
-                    ("Province:", Data.account.location.province, "province", "province"),
+                    (
+                        "Province:",
+                        Data.account.location.province,
+                        "province",
+                        "province",
+                    ),
                     (
                         "Postal Code:",
                         Data.account.location.postal_code,
