@@ -1,6 +1,5 @@
 from fasthtml.common import *
 import Component
-import Data
 
 def account_details_page():
     # Render the account details

@@ -1,5 +1,4 @@
 from fasthtml.common import *
-
 import Data
 
 def display_data_component():
