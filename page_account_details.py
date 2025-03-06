@@ -21,11 +21,13 @@ def account_details_page():
                 Button(
                     "Account Details",
                     style="text-align:left; color:black; background: transparent; border: none; cursor: pointer; height:45px; width:100%; outline: none;",
+                    onclick="window.location.href='/account-details'",
                 ),
                 Hr(style="width:100%;text-align:left;margin-left:0;"),
                 Button(
                     "View Orders",
                     style="text-align:left; color:black; background: transparent; border: none; cursor: pointer; height:45px; width:100%; outline: none;",
+                    onclick="window.location.href='/orders'",
                 ),
                 Hr(style="width:100%;text-align:left;margin-left:0;"),
                 Button(

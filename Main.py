@@ -2,15 +2,19 @@ from fasthtml.common import *
 from fastapi import FastAPI, Request, Form, status
 import Component
 import Data
-import account_details as account_details
+import page_account_details as page_account_details
 
 app, rt = fast_app()
 
+####### common menu route
+@rt("/go-to-account-details")
+def get():
+    return RedirectResponse(url="/account-details", status_code=status.HTTP_303_SEE_OTHER)
 
 ####### account details page
 @rt("/account-details")
 def get():
-    return account_details.account_details_page()
+    return page_account_details.account_details_page()
 
 
 @rt("/account-details-edit")
