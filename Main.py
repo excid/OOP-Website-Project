@@ -1,14 +1,14 @@
 from fasthtml.common import *
 import Component
 import Data
-import page.account_details as account_details 
+import page
 
 app, rt = fast_app()
 
 ####### account details page
 @rt("/account-details")
 def get():
-    return account_details.account_details_page()
+    return page.account_details
 
 @rt("/account-details-edit")
 def get():
