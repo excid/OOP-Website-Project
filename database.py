@@ -24,6 +24,9 @@ class Account:
         self.__name = name
         self.__tel = tel
         self.__location.edit_location(location)
+        
+    def add_order_history(self, order):
+        self.__order_history.append(order)
 
     @property
     def email(self):
@@ -44,6 +47,10 @@ class Account:
     @property
     def location(self):
         return self.__location
+    
+    @property
+    def order_history(self):
+        return self.__order_history
 
 class Item:
     def __init__(self, number, question, answer, choices):
@@ -207,6 +214,46 @@ class Course:
                 return video
         return None
 
+class Payment:
+    def __init__(self, payment_id, type, timestamp):
+        self.__payment_id = payment_id
+        self.__type = type
+        self.__timestamp = timestamp
+    
+class Order:
+    def __init__(self, id, total_money, course:Course, datetime, payment_detail:Payment):
+        self.__id = id
+        self.__total_money = total_money
+        self.__course = course
+        self.__datetime = datetime
+        self.__payment_detail = payment_detail
+        self.__order_status = "Pending"
+        
+    @property
+    def course(self):
+        return self.__course
+    
+    @property
+    def id(self):
+        return self.__id
+    
+    @property
+    def total_money(self):
+        return self.__total_money
+    
+    @property
+    def payment_detail(self):
+        return self.__payment_detail
+    
+    @property
+    def datetime(self):
+        return self.__datetime
+    
+    @property
+    def order_status(self):
+        return self.__order_status
+        
+        
 
 class Platform:
     def __init__(self):
@@ -214,8 +261,8 @@ class Platform:
         self.__accounts = []  # List to store accounts
         
     @property
-    def account(self):
-        return self.__account
+    def accounts(self):
+        return self.__accounts
     
     @property
     def course(self):
@@ -244,16 +291,19 @@ app = Platform()
 
 def set_initial_data():
     course1 = Course("Python", "1", 1000)
-    vids1 = Video("Python Programing", "1", "Test_path.mp4")
+    vids1 = Video("Python Programming", "1", "Test_path.mp4")
     
     course1.add_video(vids1)
-    
     app.add_course(course1)
     
-def set_account_details_data():
+set_initial_data()
+
+# เดี๋ยวกูเอาไปใส่คู่กับ controller อันนี้ลอง
+def pao_test():
     sample_account = Account(
-        1, "example@example.com", "password123", "John Doe", "johndoe"
+        "1", "example@example.com", "password123", "John Doe", "johndoe"
     )
+    
     sample_account.edit_data(
         "example@example.com",
         "John Doe",
@@ -262,6 +312,15 @@ def set_account_details_data():
     )
     app.add_account(sample_account)
     
-set_account_details_data()
-account = app.search_account(1)
-set_initial_data()
+    order1 = Order("1", 1000, app.search_course("1"), "1-1-2025", Payment("1", "Credit Card", "2021-03-01"))
+    order2 = Order("2", 1000, app.search_course("1"), "3-2-2025", Payment("1", "Credit Card", "2021-03-01"))
+    
+    sample_account.add_order_history(order1)
+    sample_account.add_order_history(order2)
+    
+    
+    
+    
+pao_test()
+account = app.search_account("1")
+order_history = account.order_history

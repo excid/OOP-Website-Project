@@ -40,7 +40,7 @@ def account_details_page():
             ),
             # Account Details (Right Side) - Aligned to the Left
             Div(
-                component.display_data_component(),
+                component.display_account_details_component(),
                 style="width: 75%; padding: 20px; text-align:left;",
             ),
             # Apply Flexbox
@@ -58,12 +58,12 @@ def setup_routes(rt):
 
     @rt("/account-details-edit")
     def get():
-        return component.edit_data_component()
+        return component.edit_account_details_component()
 
 
     @rt("/account-details-back-from-edit")
     def get():
-        return component.display_data_component()
+        return component.display_account_details_component()
 
 
     @rt("/account-details-save-changes")

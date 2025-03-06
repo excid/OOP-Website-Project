@@ -1,7 +1,8 @@
 from fasthtml.common import *
-from database import account
+from database import account, order_history
 
-def display_data_component():
+
+def display_account_details_component():
     return (
         Div(
             Div(
@@ -50,7 +51,7 @@ def display_data_component():
     )
 
 
-def edit_data_component():
+def edit_account_details_component():
     return Div(
         Div(
             H2("Account Details", style="text-align:left;color:inherit;"),
@@ -121,4 +122,29 @@ def edit_data_component():
             method="post",
         ),
         style="background-color: white; min-height: 100vh;",
+    )
+
+
+def display_order_history_component():
+    return (
+        Div(
+            H2("View Orders", style="text-align:left;color:inherit;"),
+            style="display:flex;",
+        ),
+        Hr(),
+        Table(
+            Tr(
+                Th("Order ID",style="text-align:center;"),
+                Th("Product Name",style="text-align:center;"),
+                Th("Date Purchased",style="text-align:center;"),
+                Th(""),
+            ),
+            *[Tr(
+                Td(order.id,style="text-align:center;"),
+                Td(order.course.title,style="text-align:center;"),
+                Td(order.datetime,style="text-align:center;"),
+                Td("View Info",style="text-align:center;"),
+            )
+            for order in order_history],
+        )
     )
