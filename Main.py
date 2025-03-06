@@ -2,7 +2,7 @@ from fasthtml.common import *
 from fastapi import FastAPI, Request, Form, status
 import Component
 import Data
-import page.account_details as account_details
+import account_details as account_details
 
 app, rt = fast_app()
 
