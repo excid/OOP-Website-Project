@@ -1,6 +1,5 @@
 from fasthtml.common import *
-import Data
-
+from database import account
 
 def display_data_component():
     return (
@@ -32,16 +31,16 @@ def display_data_component():
                         )
                     )
                     for label, value in [
-                        ("E-mail:", Data.account.email),
-                        ("Name:", Data.account.name),
-                        ("Tel:", Data.account.tel),
-                        ("Country:", Data.account.location.country),
-                        ("Street Address:", Data.account.location.street_address),
-                        ("Apt, suite, etc.:", Data.account.location.apt),
-                        ("Suburb:", Data.account.location.suburb),
-                        ("City:", Data.account.location.city),
-                        ("Province:", Data.account.location.province),
-                        ("Postal Code:", Data.account.location.postal_code),
+                        ("E-mail:", account.email),
+                        ("Name:", account.name),
+                        ("Tel:", account.tel),
+                        ("Country:", account.location.country),
+                        ("Street Address:", account.location.street_address),
+                        ("Apt, suite, etc.:", account.location.apt),
+                        ("Suburb:", account.location.suburb),
+                        ("City:", account.location.city),
+                        ("Province:", account.location.province),
+                        ("Postal Code:", account.location.postal_code),
                     ]
                 ],
                 style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; border-radius: 8px;",
@@ -82,28 +81,28 @@ def edit_data_component():
                     )
                 )
                 for label, value, field_id, field_name in [
-                    ("E-mail:", Data.account.email, "email", "email"),
-                    ("Name:", Data.account.name, "name", "name"),
-                    ("Tel:", Data.account.tel, "tel", "tel"),
-                    ("Country:", Data.account.location.country, "country", "country"),
+                    ("E-mail:", account.email, "email", "email"),
+                    ("Name:", account.name, "name", "name"),
+                    ("Tel:", account.tel, "tel", "tel"),
+                    ("Country:", account.location.country, "country", "country"),
                     (
                         "Street Address:",
-                        Data.account.location.street_address,
+                        account.location.street_address,
                         "street_address",
                         "street_address",
                     ),
-                    ("Apt, suite, etc.:", Data.account.location.apt, "apt", "apt"),
-                    ("Suburb:", Data.account.location.suburb, "suburb", "suburb"),
-                    ("City:", Data.account.location.city, "city", "city"),
+                    ("Apt, suite, etc.:", account.location.apt, "apt", "apt"),
+                    ("Suburb:", account.location.suburb, "suburb", "suburb"),
+                    ("City:", account.location.city, "city", "city"),
                     (
                         "Province:",
-                        Data.account.location.province,
+                        account.location.province,
                         "province",
                         "province",
                     ),
                     (
                         "Postal Code:",
-                        Data.account.location.postal_code,
+                        account.location.postal_code,
                         "postal_code",
                         "postal_code",
                     ),

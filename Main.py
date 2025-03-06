@@ -1,7 +1,7 @@
 from fasthtml.common import fast_app, serve
 from quiz import setup_routes as setup_quiz_routes, exam
 from course import setup_routes as setup_course_routes
-from Account_detail import setup_routes as setup_Account_routes
+from account_details import setup_route as setup_Account_routes
 from database import *
 from dataclasses import *
 from typing import List

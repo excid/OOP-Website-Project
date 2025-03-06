@@ -5,6 +5,45 @@ class Product():
 class Book(Product):
     def __init__(self):
         pass
+    
+class Account:
+    def __init__(self, id, email, password, name, username):
+        self.__email = email
+        self.__id = id
+        self.__password = password
+        self.__name = name
+        self.__username = username
+        self.__tel = None  # Phone number is not set initially
+        self.__location = Location()
+        self.__cart = []
+        self.__course = []
+        self.__order_history = []
+
+    def edit_data(self, email, name, tel, location):
+        self.__email = email
+        self.__name = name
+        self.__tel = tel
+        self.__location.edit_location(location)
+
+    @property
+    def email(self):
+        return self.__email
+    
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def tel(self):
+        return self.__tel
+
+    @property
+    def location(self):
+        return self.__location
 
 class Item:
     def __init__(self, number, question, answer, choices):
@@ -74,9 +113,52 @@ class Exam:
                 self.__doness += 1
         return self.__doness / len(self.__items)
     
-class User:
+class Location:
     def __init__(self):
-        pass
+        self.__country = None
+        self.__street_address = None
+        self.__apt = None
+        self.__suburb = None
+        self.__city = None
+        self.__province = None
+        self.__postal_code = None
+
+    def edit_location(self, location):
+        self.__country = location[0]
+        self.__street_address = location[1]
+        self.__apt = location[2]
+        self.__suburb = location[3]
+        self.__city = location[4]
+        self.__province = location[5]
+        self.__postal_code = location[6]
+
+    @property
+    def country(self):
+        return self.__country
+
+    @property
+    def street_address(self):
+        return self.__street_address
+
+    @property
+    def apt(self):
+        return self.__apt
+
+    @property
+    def suburb(self):
+        return self.__suburb
+
+    @property
+    def city(self):
+        return self.__city
+
+    @property
+    def province(self):
+        return self.__province
+
+    @property
+    def postal_code(self):
+        return self.__postal_code
     
 class Video:
     def __init__(self, title, id, path):
@@ -129,11 +211,11 @@ class Course:
 class Platform:
     def __init__(self):
         self.__course = []
-        self.__user = []
+        self.__accounts = []  # List to store accounts
         
     @property
-    def user(self):
-        return self.__user
+    def account(self):
+        return self.__account
     
     @property
     def course(self):
@@ -145,17 +227,17 @@ class Platform:
                 return course
         return None
         
-    def search_user(self, id):
-        for user in self.__user:
-            if user.id == id:
-                return user
-        return None
-        
-    def add_user(self, value : User):
-        self.__user.append(value)
-        
     def add_course(self, value : Course):
         self.__course.append(value)
+        
+    def add_account(self, account):
+        self.__accounts.append(account)
+
+    def search_account(self, id):
+        for account in self.__accounts:
+            if account.id == id:
+                return account
+        return None
         
 
 app = Platform()
@@ -168,4 +250,18 @@ def set_initial_data():
     
     app.add_course(course1)
     
+def set_account_details_data():
+    sample_account = Account(
+        1, "example@example.com", "password123", "John Doe", "johndoe"
+    )
+    sample_account.edit_data(
+        "example@example.com",
+        "John Doe",
+        "1234567890",
+        ["USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"],
+    )
+    app.add_account(sample_account)
+    
+set_account_details_data()
+account = app.search_account(1)
 set_initial_data()

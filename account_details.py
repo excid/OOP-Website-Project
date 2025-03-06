@@ -1,6 +1,8 @@
 from fasthtml.common import *
-import Component
-
+from fastapi import FastAPI, Request, Form, status
+import component
+from database import account
+import account_details as account_details
 
 def account_details_page():
     # Render the account details
@@ -39,7 +41,7 @@ def account_details_page():
             ),
             # Account Details (Right Side) - Aligned to the Left
             Div(
-                Component.display_data_component(),
+                component.display_data_component(),
                 style="width: 75%; padding: 20px; text-align:left;",
             ),
             # Apply Flexbox
@@ -47,3 +49,48 @@ def account_details_page():
         ),
         style="width:100%; min-height: 100vh; background-color:white; color:black;",
     )
+
+def setup_route(rt):
+####### common menu route
+    @rt("/go-to-account-details")
+    def get():
+        return RedirectResponse(url="/account-details", status_code=status.HTTP_303_SEE_OTHER)
+
+    ####### account details page
+    @rt("/account-details")
+    def get():
+        return account_details.account_details_page()
+
+
+    @rt("/account-details-edit")
+    def get():
+        return component.edit_data_component()
+
+
+    @rt("/account-details-back-from-edit")
+    def get():
+        return component.display_data_component()
+
+
+    @rt("/account-details-save-changes")
+    def post(
+        email: str,
+        name: str,
+        tel: str,
+        country: str,
+        street_address: str,
+        apt: str,
+        suburb: str,
+        city: str,
+        province: str,
+        postal_code: str,
+    ):
+        account.edit_data(
+            email,
+            name,
+            tel,
+            [country, street_address, apt, suburb, city, province, postal_code],
+        )
+        return RedirectResponse(
+            url="/account-details", status_code=status.HTTP_303_SEE_OTHER
+        )
