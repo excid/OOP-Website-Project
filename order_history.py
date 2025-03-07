@@ -1,6 +1,7 @@
 from fasthtml.common import *
-import Component
-
+from fastapi import FastAPI, Request, Form, status
+import component
+from database import account, order_history
 
 def account_details_page():
     # Render the account details
@@ -39,7 +40,7 @@ def account_details_page():
             ),
             # Account Details (Right Side) - Aligned to the Left
             Div(
-                Component.display_data_component(),
+                component.display_order_history_component(),
                 style="width: 75%; padding: 20px; text-align:left;",
             ),
             # Apply Flexbox
@@ -47,3 +48,9 @@ def account_details_page():
         ),
         style="width:100%; min-height: 100vh; background-color:white; color:black;",
     )
+
+def setup_routes(rt):
+    ####### account details page
+    @rt("/orders")
+    def get():
+        return account_details_page()

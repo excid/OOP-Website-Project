@@ -5,6 +5,52 @@ class Product():
 class Book(Product):
     def __init__(self):
         pass
+    
+class Account:
+    def __init__(self, id, email, password, name, username):
+        self.__email = email
+        self.__id = id
+        self.__password = password
+        self.__name = name
+        self.__username = username
+        self.__tel = None  # Phone number is not set initially
+        self.__location = Location()
+        self.__cart = []
+        self.__course = []
+        self.__order_history = []
+
+    def edit_data(self, email, name, tel, location):
+        self.__email = email
+        self.__name = name
+        self.__tel = tel
+        self.__location.edit_location(location)
+        
+    def add_order_history(self, order):
+        self.__order_history.append(order)
+
+    @property
+    def email(self):
+        return self.__email
+    
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def tel(self):
+        return self.__tel
+
+    @property
+    def location(self):
+        return self.__location
+    
+    @property
+    def order_history(self):
+        return self.__order_history
 
 class Item:
     def __init__(self, number, question, answer, choices):
@@ -101,8 +147,52 @@ class Exam:
     
     
 class User:
+class Location:
     def __init__(self):
-        pass
+        self.__country = None
+        self.__street_address = None
+        self.__apt = None
+        self.__suburb = None
+        self.__city = None
+        self.__province = None
+        self.__postal_code = None
+
+    def edit_location(self, location):
+        self.__country = location[0]
+        self.__street_address = location[1]
+        self.__apt = location[2]
+        self.__suburb = location[3]
+        self.__city = location[4]
+        self.__province = location[5]
+        self.__postal_code = location[6]
+
+    @property
+    def country(self):
+        return self.__country
+
+    @property
+    def street_address(self):
+        return self.__street_address
+
+    @property
+    def apt(self):
+        return self.__apt
+
+    @property
+    def suburb(self):
+        return self.__suburb
+
+    @property
+    def city(self):
+        return self.__city
+
+    @property
+    def province(self):
+        return self.__province
+
+    @property
+    def postal_code(self):
+        return self.__postal_code
     
 class Video:
     def __init__(self, title, id, path):
@@ -165,15 +255,55 @@ class Course:
     def add_exam(self, exam : Exam):
         self.__exam.append(exam)
 
+class Payment:
+    def __init__(self, payment_id, type, timestamp):
+        self.__payment_id = payment_id
+        self.__type = type
+        self.__timestamp = timestamp
+    
+class Order:
+    def __init__(self, id, total_money, course:Course, datetime, payment_detail:Payment):
+        self.__id = id
+        self.__total_money = total_money
+        self.__course = course
+        self.__datetime = datetime
+        self.__payment_detail = payment_detail
+        self.__order_status = "Pending"
+        
+    @property
+    def course(self):
+        return self.__course
+    
+    @property
+    def id(self):
+        return self.__id
+    
+    @property
+    def total_money(self):
+        return self.__total_money
+    
+    @property
+    def payment_detail(self):
+        return self.__payment_detail
+    
+    @property
+    def datetime(self):
+        return self.__datetime
+    
+    @property
+    def order_status(self):
+        return self.__order_status
+        
+        
 
 class Platform:
     def __init__(self):
         self.__course = []
-        self.__user = []
+        self.__accounts = []  # List to store accounts
         
     @property
-    def user(self):
-        return self.__user
+    def accounts(self):
+        return self.__accounts
     
     @property
     def course(self):
@@ -185,17 +315,17 @@ class Platform:
                 return course
         return None
         
-    def search_user(self, id):
-        for user in self.__user:
-            if user.id == id:
-                return user
-        return None
-        
-    def add_user(self, value : User):
-        self.__user.append(value)
-        
     def add_course(self, value : Course):
         self.__course.append(value)
+        
+    def add_account(self, account):
+        self.__accounts.append(account)
+
+    def search_account(self, id):
+        for account in self.__accounts:
+            if account.id == id:
+                return account
+        return None
         
 
 app = Platform()
@@ -210,6 +340,7 @@ def set_initial_data():
     exam1.add_item(Item(3, "What is the output of 2 / 2?", "1", ["0", "1", "2", "3"]))
     exam1.add_item(Item(4, "What is the output of 2 - 2?", "0", ["0", "1", "2", "3"]))
     exam1.add_item(Item(5, "What is the output of 2 ** 2?", "4", ["2", "3", "4", "5"]))
+    vids1 = Video("Python Programming", "1", "Test_path.mp4")
     
     course1.add_video(vids2)
     course1.add_video(vids1)
@@ -220,3 +351,35 @@ def set_initial_data():
 
     
 set_initial_data()
+=======
+    app.add_course(course1)
+    
+set_initial_data()
+
+# เดี๋ยวกูเอาไปใส่คู่กับ controller อันนี้ลอง
+def pao_test():
+    sample_account = Account(
+        "1", "example@example.com", "password123", "John Doe", "johndoe"
+    )
+    
+    sample_account.edit_data(
+        "example@example.com",
+        "John Doe",
+        "1234567890",
+        ["USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"],
+    )
+    app.add_account(sample_account)
+    
+    order1 = Order("1", 1000, app.search_course("1"), "1-1-2025", Payment("1", "Credit Card", "2021-03-01"))
+    order2 = Order("2", 1000, app.search_course("1"), "3-2-2025", Payment("1", "Credit Card", "2021-03-01"))
+    
+    sample_account.add_order_history(order1)
+    sample_account.add_order_history(order2)
+    
+    
+    
+    
+pao_test()
+account = app.search_account("1")
+order_history = account.order_history
+>>>>>>> 566f93bf3a93c4f5448acd58198347fa91ee0514
