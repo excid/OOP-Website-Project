@@ -40,7 +40,7 @@ def account_details_page():
             ),
             # Account Details (Right Side) - Aligned to the Left
             Div(
-                component.display_data_component(),
+                component.display_account_details_component(),
                 style="width: 75%; padding: 20px; text-align:left;",
             ),
             # Apply Flexbox
