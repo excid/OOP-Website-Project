@@ -27,6 +27,9 @@ class Account:
         
     def add_order_history(self, order):
         self.__order_history.append(order)
+        
+    def change_password(self, new_password):
+        self.__password = new_password
 
     @property
     def email(self):
@@ -359,14 +362,17 @@ def pao_test():
         ["USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"],
     )
     app.add_account(sample_account)
+
+    course2 = Course("C", "2", 1000)
+    app.add_course(course2)
     
     order1 = Order("1", 1000, app.search_course("1"), "1-1-2025", Payment("1", "Credit Card", "2021-03-01"))
-    order2 = Order("2", 1000, app.search_course("1"), "3-2-2025", Payment("1", "Credit Card", "2021-03-01"))
+    order2 = Order("2", 1000, app.search_course("2"), "3-2-2025", Payment("1", "Credit Card", "2021-03-01"))
     
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)
-    
-    
+
+
     
     
 pao_test()

@@ -3,6 +3,12 @@ from fastapi import FastAPI, Request, Form, status
 import component
 from database import account
 
+# account_details.py
+from fasthtml.common import *
+from fastapi import FastAPI, Request, Form, status
+import component
+from database import account
+
 def account_details_page():
     # Render the account details
     return Div(
@@ -55,16 +61,36 @@ def setup_routes(rt):
     def get():
         return account_details_page()
 
-
     @rt("/account-details-edit")
     def get():
         return component.edit_account_details_component()
 
-
     @rt("/account-details-back-from-edit")
     def get():
         return component.display_account_details_component()
+    
+    @rt("/change-password")
+    def get():
+        return component.change_password_component()
+    
+    @rt("/back-from-change-password")
+    def get():
+        return component.password_no_popup_component()
 
+    @rt("/change-password-submit")
+    def post(
+        new_password: str = Form(...),
+        confirm_password: str = Form(...),
+    ):
+        if new_password != confirm_password:
+            return "Passwords do not match", 400
+        
+        # Update the password in the account object
+        account.change_password(new_password)
+        
+        return RedirectResponse(
+            url="/account-details", status_code=status.HTTP_303_SEE_OTHER
+        )
 
     @rt("/account-details-save-changes")
     def post(
