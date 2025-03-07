@@ -27,6 +27,19 @@ class Account:
         
     def add_order_history(self, order):
         self.__order_history.append(order)
+        
+    def add_course(self, course):
+        self.__course.append(course)
+        
+    def search_course(self, course_id):
+        for course in self.__course:
+            if course.id == course_id:
+                return course
+        return None
+        
+    @property
+    def course(self):
+        return self.__course
 
     @property
     def email(self):
@@ -144,9 +157,7 @@ class Exam:
                 self.__doness += 1
         return self.__doness / len(self.__items)
     
-    
-    
-class User:
+
 class Location:
     def __init__(self):
         self.__country = None
@@ -219,6 +230,16 @@ class Course:
         self.__price = price
         self.__id = id
         self.__exam = []
+        self.__img_url = "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
+        self.__progress = 10
+        
+    @property
+    def progress(self):
+        return self.__progress
+        
+    @property
+    def img(self):
+        return self.__img_url
         
     @property
     def title(self):
@@ -235,6 +256,10 @@ class Course:
     @property
     def exam(self):
         return self.__exam
+    
+    @property
+    def price(self):
+        return self.__price
     
     
     def add_video(self, value : Video):
@@ -335,25 +360,18 @@ def set_initial_data():
     vids1 = Video("Python Programing", "1", "vids/video1.mp4")
     vids2 = Video("Object Orient Programming", "2", "vids/video2.mp4")
     exam1 = Exam("Python Programming Quiz", "1")
-    exam1.add_item(Item(1, "What is the output of 2 + 2?", "4", ["2", "3", "4", "5"]))
+    exam1.add_item(Item(1, "What is the output of 2 + 3?", "4", ["2", "3", "4", "5"]))
     exam1.add_item(Item(2, "What is the output of 2 * 2?", "4", ["2", "3", "4", "5"]))
     exam1.add_item(Item(3, "What is the output of 2 / 2?", "1", ["0", "1", "2", "3"]))
     exam1.add_item(Item(4, "What is the output of 2 - 2?", "0", ["0", "1", "2", "3"]))
     exam1.add_item(Item(5, "What is the output of 2 ** 2?", "4", ["2", "3", "4", "5"]))
-    vids1 = Video("Python Programming", "1", "Test_path.mp4")
-    
     course1.add_video(vids2)
     course1.add_video(vids1)
     course1.add_exam(exam1)
     
+    
     app.add_course(course1)
-    
-
-    
-set_initial_data()
-=======
-    app.add_course(course1)
-    
+      
 set_initial_data()
 
 # เดี๋ยวกูเอาไปใส่คู่กับ controller อันนี้ลอง
@@ -376,10 +394,9 @@ def pao_test():
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)
     
-    
+    sample_account.add_course(app.search_course("1"))
     
     
 pao_test()
 account = app.search_account("1")
 order_history = account.order_history
->>>>>>> 566f93bf3a93c4f5448acd58198347fa91ee0514

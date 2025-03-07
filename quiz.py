@@ -4,14 +4,14 @@ from typing import List
 from controller import get_exam, grading
 
 def setup_routes(rt):
-    @rt('/quiz')
+    @rt('/course/quiz')
     def quiz_get(request):
         global exam
-        print("Quiz route accessed")
         course_id = request.query_params.get("course_id")
         exam_id = request.query_params.get("exam_id")
+        account_id = request.query_params.get("account_id")
         print(course_id, exam_id)
-        exam = get_exam(course_id, exam_id)
+        exam = get_exam(course_id, exam_id, account_id)
         
         return Div(
             Div(
@@ -28,13 +28,13 @@ def setup_routes(rt):
                     style="padding-top: 20px;"
                 ) for item in exam.items],
                 Button("Submit", style="padding-left: 150px; padding-right: 150px; float: right;"),
-                action="/submit",
+                action="/course/quiz/submit",
                 method="post"
             ),
             style="padding-left: 100px; margin-bottom: 150px;"
         )
 
-    @rt('/submit')
+    @rt('/course/quiz/submit')
     async def submit_post(request):  # Make the function asynchronous
         global exam
         if not exam:
@@ -45,14 +45,27 @@ def setup_routes(rt):
         
         grading(form_data, exam)
         
-        return RedirectResponse("/result")
+        return RedirectResponse("/course/quiz/result")
 
-    @rt('/result')
+    @rt('/course/quiz/result')
     def result_get():
         global exam
-        return Div(
-                H1("Result"),
-                H3(f"Your score is {exam.score}"),
-                style="items-aligh: center;"
+        return Container(
+            Div(
+                H1("Quiz Result", style="color: #333; font-size: 2.5rem; font-weight: bold; text-align: center;"),
+                H3(f"Your score is {exam.score}", style="color: #007BFF; font-size: 2rem; text-align: center;"),
+
+                Br(),  # Adds spacing
+
+                # Back button
+                Div(
+                    A("⬅ Back to Course", href="/course/view_video", 
+                    style="display: inline-block; padding: 12px 24px; background-color: #de4040; color: white; text-decoration: none; border-radius: 5px; font-size: 1rem;"),
+                    style="text-align: center; margin-top: 20px;"
+                ),
+
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;"
             )
+        )
+
 

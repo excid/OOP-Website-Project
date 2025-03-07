@@ -1,61 +1,83 @@
 from fasthtml.common import *
-from controller import *
-
-video = get_all_video("1")
-quiz = get_all_quiz("1")
-print(quiz[0].id)
-course_id = "1"
+from dataclasses import dataclass
+from typing import List
+from controller import get_account_course
 
 
 def setup_routes(rt):
     @rt('/course')
-    def get(request):
-        video_id = request.query_params.get("video_id")
-        selected_video = next((v for v in video if str(v.id) == video_id), None)
-        return Div(
-            Card(
-                H1("Online Course"),
-                P("Python Programming Course"),
-                style="background-color: white; color: red; text-align: center;"  # Fixed typo
-            ),
-            Hr(style="border: 1px solid black;"),
-            Div(
-                Div(
-                    H2("Course Videos"),
-                    Ul(
-                        *[Li(A(Card(f"{vids.title}", style="background-color: #DE4040; box-shadow: 2px 1px; border: 2px; border-color: black"), href=f"/course/?video_id={vids.id}")) for vids in video],
-                        Li(A("6. Quiz", href=f"/quiz?exam_id={quiz[0].id}&course_id={course_id}"))
-                    ),
-                    style="width: 20%; height: 100vh; padding: 10px; background-color: #f0f0f0;"
-                ),
-                Div(style="width: 2px; background-color: gray; height: 100vh;"),  # Full height
-                Container(
-                    H2("Course Content", style="text-align: center;"),
-                    Container(
-                        ft("video",
-                            ft("source", src=selected_video.path if selected_video else "", type="video/mp4"),
-                            controls="true",
-                            autoplay="true",
-                            loop="true",
-                            muted="true",
-                            width="100%",
-                        ) if selected_video else Img(
-                            src="https://fastcdn.hoyoverse.com/content-v2/hk4e/113484/1a0e331a984e482f84433eac47cd5e3b_3213742424298282717.jpg"
-                        ),
-                    ),
-                    Div(
-                        Button("Previous", style="float: left;"),
-                        Button("Next", style="float: right;"),
-                        style="padding: 20px; text-align: center;"
-                    ),
-                    style="flex-grow: 1; padding: 10px; background-color: #f0f0f0;"
-                ),
-                style="display: flex; height: 100vh;"
-            ),
+    def course_get(request):
+        search_form = Form(
+                             Label(
+                                    Input(type="search", placeholder="search", cls="search"),
+                                    cls="search-container",
+                                    style="background-color: #ffffff; weigth: 20vh;"
+                                ),
+                            hx_get="/search", hx_target="#search-results", hx_trigger="submit"
+                        )
 
-            style="margin: 0px;background-color: white; min-height: 100%; width: 100vw; color: black; display: flex; flex-direction: column;"
-        )
-        
-    @rt("/course/display")
-    def post_display():
-        return Div(H1("Quiz Page"), id="quiz-container")
+        #account_id =  request.query_params.get("account_id")
+        account_id = "1"
+        courses = get_account_course(account_id)
+        return Container(
+                    Header( 
+                            Header( 
+                                Div(
+                                    Div(
+                                        H1("My Course", style="color: black; font-weight: bold; margin: 0; position: absolute; left: 50%; transform: translateX(-50%);"),
+                                        search_form,
+                                        style="display: flex; align-items: center; width: 100%; position: relative;"
+                                    ),
+                                    style="display: flex; justify-content: flex-end; align-items: center; width: 100%; padding: 10px;"
+                                ),
+                            ),
+                        H6("view aviailable courses here",style="text-align: center;color: black; font-weight: thin;"),
+                        Hr(),
+                        Br(),
+                            
+                    ),
+
+                    Body(
+                        Div(
+                            *[
+                                Card(
+                                    Div(
+                                        Img(src=course.img, alt=f"{course.title} Image", style="width:300px; height:300px;margin:auto;"),
+                                        Style = "background-color: #efefef;display: grid; place-items: center; text-align: center; padding: 20px;",
+                                    ),  
+
+                                    H3(course.title,Style="text-align: left;color : black;text-align: center;"),
+                                    H6(f"Course Progression : {course.progress}%",style="text-align: center;"),
+                                    Progress(value=course.progress, max=100, style="width: 80%; height: 8px; border-radius: 5px; display: block; margin: auto; margin-bottom: 10px"),
+                                    Div(   
+                                        H5(
+                                            A("VIEW INFO", href=f"/course/course_info/?course_id={course.id}", cls="button"),"\t",
+                                            A("Continue", href=f"/course/view_video/?course_id={course.id}&account_id={account_id}", cls="button")
+                                        ),
+                                        Style="text-align: center;margin = auto;"
+                                    ),
+                                    cls="course-card",
+
+                                    Style = "background-color: #efefef; width: 100%; height: 100%;margin: 0; padding:0;",
+                                ) for course in courses
+                            ], cls="grid"
+                        ),
+
+                        Style(".grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px;}"
+                            ".course-card {padding: 20px; border-radius: 0px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);background-color: #fffff;}"
+                            ".button {background-color: #de4040; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;}"
+                            ".button:hover {background-color: auto;}"
+                            "a {text-decoration: none; color: white;}"
+                            "a:hover {text-decoration: none; color: white;}"
+                        ),
+
+                        Style = "background-color: #ffffff; width: 100%; height: 100%;margin: 0; padding: 0;"
+
+                    ),
+
+                    Style = "background-color: white; width: 100%; height: 100%;margin: center; padding: 0;"
+
+                )
+
+
+
