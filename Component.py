@@ -1,6 +1,5 @@
 from fasthtml.common import *
 
-
 def display_data_component():
     return (
         Div(
