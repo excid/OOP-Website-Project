@@ -143,10 +143,6 @@ class Exam:
             if item.doness:
                 self.__doness += 1
         return self.__doness / len(self.__items)
-    
-    
-    
-class User:
 class Location:
     def __init__(self):
         self.__country = None
@@ -348,12 +344,6 @@ def set_initial_data():
     
     app.add_course(course1)
     
-
-    
-set_initial_data()
-=======
-    app.add_course(course1)
-    
 set_initial_data()
 
 # เดี๋ยวกูเอาไปใส่คู่กับ controller อันนี้ลอง
@@ -382,4 +372,3 @@ def pao_test():
 pao_test()
 account = app.search_account("1")
 order_history = account.order_history
->>>>>>> 566f93bf3a93c4f5448acd58198347fa91ee0514
