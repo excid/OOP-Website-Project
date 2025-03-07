@@ -1,26 +1,18 @@
 from fasthtml.common import *
 from dataclasses import dataclass
 from typing import List
-
-@dataclass
-class Item:
-    done: bool
-    number: int
-    question: str
-    answer: str
-    choices: List[str]
-    correctness: bool
-
-@dataclass
-class Exam:
-    title: str
-    items: List[Item]
-    score: int = 0
+from controller import get_exam, grading
 
 def setup_routes(rt):
     @rt('/quiz')
-    def quiz_get():
-        print("Quiz route accessed")  # Debug statement
+    def quiz_get(request):
+        global exam
+        print("Quiz route accessed")
+        course_id = request.query_params.get("course_id")
+        exam_id = request.query_params.get("exam_id")
+        print(course_id, exam_id)
+        exam = get_exam(course_id, exam_id)
+        
         return Div(
             Div(
                 H1("Quiz"),
@@ -43,31 +35,24 @@ def setup_routes(rt):
         )
 
     @rt('/submit')
-    def submit_post(request):
-        for item in exam.items:
-            choice = request.form[f"q{item.number}"]
-            if choice == item.answer:
-                item.correctness = True
-                exam.score += 1
-            else:
-                item.correctness = False
+    async def submit_post(request):  # Make the function asynchronous
+        global exam
+        if not exam:
+            return Div("Exam not found. Please start the quiz again.")
+        form_data = await request.form()  # Use await to get form data
+        
+        # Grade the exam
+        
+        grading(form_data, exam)
+        
         return RedirectResponse("/result")
 
     @rt('/result')
     def result_get():
+        global exam
         return Div(
                 H1("Result"),
                 H3(f"Your score is {exam.score}"),
                 style="items-aligh: center;"
             )
 
-def set_exam():
-    return Exam("Python Programming Quiz", [
-        Item(False, 1, "What is the output of 2 + 2?", "4", ["2", "3", "4", "5"], False),
-        Item(False, 2, "What is the output of 2 * 2?", "4", ["2", "3", "4", "5"], False),
-        Item(False, 3, "What is the output of 2 / 2?", "1", ["0", "1", "2", "3"], False),
-        Item(False, 4, "What is the output of 2 - 2?", "0", ["0", "1", "2", "3"], False),
-        Item(False, 5, "What is the output of 2 ** 2?", "4", ["2", "3", "4", "5"], False),
-    ])
-
-exam = set_exam()
