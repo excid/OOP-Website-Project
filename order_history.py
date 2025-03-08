@@ -6,6 +6,7 @@ from database import account, order_history
 def account_details_page():
     # Render the account details
     return Div(
+        component.navbar_component(),
         Header(
             "View Details",
             style="font-weight: 600; text-align:center; font-size: 30px;",

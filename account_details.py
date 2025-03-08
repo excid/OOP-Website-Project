@@ -1,17 +1,14 @@
-from fasthtml.common import *
-from fastapi import FastAPI, Request, Form, status
-import component
-from database import account
-
 # account_details.py
 from fasthtml.common import *
 from fastapi import FastAPI, Request, Form, status
 import component
 from database import account
 
+
 def account_details_page():
     # Render the account details
     return Div(
+        component.navbar_component(),
         Header(
             "View Details",
             style="font-weight: 600; text-align:center; font-size: 30px;",
@@ -55,6 +52,7 @@ def account_details_page():
         style="width:100%; min-height: 100vh; background-color:white; color:black;",
     )
 
+
 def setup_routes(rt):
     ####### account details page
     @rt("/account-details")
@@ -68,11 +66,11 @@ def setup_routes(rt):
     @rt("/account-details-back-from-edit")
     def get():
         return component.display_account_details_component()
-    
+
     @rt("/change-password")
     def get():
         return component.change_password_component()
-    
+
     @rt("/back-from-change-password")
     def get():
         return component.password_no_popup_component()
@@ -83,11 +81,11 @@ def setup_routes(rt):
         confirm_password: str = Form(...),
     ):
         if new_password != confirm_password:
-            return "Passwords do not match", 400
-        
+            return "Passwords do not match"
+
         # Update the password in the account object
         account.change_password(new_password)
-        
+
         return RedirectResponse(
             url="/account-details", status_code=status.HTTP_303_SEE_OTHER
         )
@@ -111,6 +109,8 @@ def setup_routes(rt):
             tel,
             [country, street_address, apt, suburb, city, province, postal_code],
         )
+        
+        
         return RedirectResponse(
             url="/account-details", status_code=status.HTTP_303_SEE_OTHER
         )

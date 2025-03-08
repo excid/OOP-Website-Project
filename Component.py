@@ -1,16 +1,117 @@
 from fasthtml.common import *
 from database import account, order_history
 
+
+def navbar_component():
+    return Div(
+        # Navbar container with flex layout for left/right alignment
+        Div(
+            # Left side: Brand/logo
+            Div(
+                A(
+                    Img(
+                        src="./image/logo.png",  # Adjust the path as needed
+                        style="width: 50x; height: 40px; margin-right: 10px;",
+                    ),
+                    H2("borntoDie", style="margin: 0; color: inherit;"),
+                    style="display: flex; align-items: center; text-decoration: none; color: inherit;",
+                    href="/",
+                ),
+            ),
+            # Right side: Navigation links
+            Div(
+                A(
+                    Img(
+                        src="./image/cart.png",
+                        style="width: 20px; height: 20px; margin-right: 10px;",
+                    ),
+                    "My Cart",
+                    href="/my-cart",
+                    style="padding: 10px; text-decoration: none; color: inherit; margin-right: 50px",
+                ),
+                A(
+                    Img(
+                        src="./image/course.png",
+                        style="width: 20px; height: 20px; margin-right: 10px;",
+                    ),
+                    "Course",
+                    href="/course",
+                    style="padding: 10px; text-decoration: none; color: inherit;  margin-right: 50px",
+                ),
+                closed_account_dropdown(),
+                style="display: flex; align-items: center;",
+            ),
+            style=(
+                "display: flex; justify-content: space-between; align-items: center; "
+                "padding: 10px 20px; background-color: #fff; border-bottom: 1px;"
+            ),
+        ),
+        style="width: 100%;",
+    )
+
+
+def closed_account_dropdown():
+    return (
+        Div(
+            Div(
+                Img(
+                    src="./image/arrow_down.png",  # Arrow icon
+                    style="width: 10px; height: 5px; margin-right: 5px;",
+                ),
+                "My Account",
+                style="padding: 10px; text-decoration: none; color: inherit; cursor: pointer;",
+            ),
+            style="position: relative; margin-right: 30px;",
+            hx_get="/open-account-dropdown",
+            hx_swap="outerHTML",
+        ),
+    )
+
+
+def opened_account_dropdown():
+    return (
+        Div(
+            A(
+                Img(
+                    src="./image/arrow_up.png",  # Arrow icon
+                    style="width: 10px; height: 5px; margin-right: 5px;",
+                ),
+                "My Account",
+                style="padding: 10px; text-decoration: none; color: inherit; cursor: pointer;",
+            ),
+            Div(
+                # Dropdown menu (Initially hidden)
+                A(
+                    "My Course",
+                    href="/my-course",
+                    style="display: block; padding: 5px; text-decoration: none; color: black;",
+                ),
+                Hr(style="margin-top:0px; margin-bottom: 0px;"),
+                A(
+                    "View Details",
+                    href="/account-details",
+                    style="display: block; padding: 5px; text-decoration: none; color: black;",
+                ),
+                style="position: absolute; border: 1px solid black; border-radius: 5px; width: 150px; margin-left:-10px; margin-top: 20px;",
+            ),
+            style="position: relative; margin-right: 30px;",
+            hx_get="/close-account-dropdown",
+            hx_swap="outerHTML",
+        ),
+    )
+
+
 def password_no_popup_component():
     return Div(
         Div(
             "Change Password",
             style="color:blue; text-decoration:underline; cursor:pointer; width: 130px; text-align: left;",
             hx_get="/change-password",
-            hx_target="#password-popup"
+            hx_target="#password-popup",
         ),
         id="password-popup",
     )
+
 
 def change_password_component():
     return Div(
@@ -18,7 +119,7 @@ def change_password_component():
             "Change Password",
             style="color:blue; text-decoration:underline; cursor:pointer; width: 130px; text-align: left;",
             hx_get="/back-from-change-password",
-            hx_target="#password-popup"
+            hx_target="#password-popup",
         ),
         Form(
             # Common style for all form rows
@@ -63,18 +164,20 @@ def change_password_component():
         ),
     )
 
+
 def display_account_details_component():
     return Div(
         Div(
             H2("Account Details", style="text-align:left;color:inherit;"),
             Img(
                 src="./image/edit.png",
-                style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;",
+                style="width: 30px; height: 30px; cursor: pointer;",
                 hx_get="/account-details-edit",
                 hx_target="#main-content",
             ),
             style="display:flex;",
-        ),Hr(),
+        ),
+        Hr(),
         Div(
             # Common style for all form rows
             *[
@@ -110,18 +213,20 @@ def display_account_details_component():
         id="main-content",
     )
 
+
 def edit_account_details_component():
     return Div(
         Div(
             H2("Account Details", style="text-align:left;color:inherit;"),
             Img(
                 src="./image/edit.png",
-                style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;",
+                style="width: 30px; height: 30px; cursor: pointer;",
                 hx_get="/account-details-back-from-edit",
                 hx_target="#main-content",
             ),
             style="display:flex;",
-        ),Hr(),
+        ),
+        Hr(),
         Form(
             # Common style for all form rows
             *[
@@ -193,19 +298,50 @@ def display_order_history_component():
         Hr(),
         Table(
             Tr(
-                Th("Order ID", style="text-align:center;"),
-                Th("Product Name", style="text-align:center;"),
-                Th("Date Purchased", style="text-align:center;"),
-                Th(""),
+                Th(
+                    "Order ID",
+                    style="text-align:center;background-color:white;color:black;",
+                ),
+                Th(
+                    "Product Name",
+                    style="text-align:center;background-color:white;color:black;",
+                ),
+                Th(
+                    "Date Purchased",
+                    style="text-align:center;background-color:white;color:black;",
+                ),
+                Th("", style="text-align:center;background-color:white;color:black;"),
             ),
             *[
                 Tr(
-                    Td(order.id, style="text-align:center;"),
-                    Td(order.course.title, style="text-align:center;"),
-                    Td(order.datetime, style="text-align:center;"),
-                    Td("View Info", style="text-align:center; color:blue; text-decoration:underline; cursor:pointer;"),
+                    Td(
+                        order.id,
+                        style="text-align:center;background-color:white;color:black;",
+                    ),
+                    Td(
+                        order.course.title,
+                        style="text-align:center;background-color:white;color:black;",
+                    ),
+                    Td(
+                        order.datetime,
+                        style="text-align:center;background-color:white;color:black;",
+                    ),
+                    Td(
+                        "View Info",
+                        style="text-align:center; color:blue; cursor:pointer; background-color:white",
+                    ),
                 )
                 for order in order_history
             ],
         ),
     )
+
+
+def setup_routes(rt):
+    @rt("/open-account-dropdown")
+    def open_account_dropdown():
+        return opened_account_dropdown()
+
+    @rt("/close-account-dropdown")
+    def close_account_dropdown():
+        return closed_account_dropdown()

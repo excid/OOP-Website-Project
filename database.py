@@ -349,7 +349,6 @@ def set_initial_data():
     
 set_initial_data()
 
-# เดี๋ยวกูเอาไปใส่คู่กับ controller อันนี้ลอง
 def pao_test():
     sample_account = Account(
         "1", "example@example.com", "password123", "John Doe", "johndoe"
@@ -371,8 +370,6 @@ def pao_test():
     
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)
-
-
     
     
 pao_test()

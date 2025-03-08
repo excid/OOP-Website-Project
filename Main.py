@@ -3,6 +3,7 @@ from quiz import setup_routes as setup_quiz_routes
 from course import setup_routes as setup_course_routes
 from account_details import setup_routes as setup_account_details_routes
 from order_history import setup_routes as setup_order_history_routes
+from component import setup_routes as setup_component_routes
 from database import *
 from dataclasses import *
 from typing import List
@@ -15,6 +16,6 @@ setup_quiz_routes(rt)
 setup_course_routes(rt)
 setup_account_details_routes(rt)
 setup_order_history_routes(rt)
-
+setup_component_routes(rt)
 # Run the server
 serve()
