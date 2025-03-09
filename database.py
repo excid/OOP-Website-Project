@@ -153,14 +153,14 @@ class Exam:
                 self.__doness += 1
         return self.__doness / len(self.__items)
 class Location:
-    def __init__(self):
-        self.__country = None
-        self.__street_address = None
-        self.__apt = None
-        self.__suburb = None
-        self.__city = None
-        self.__province = None
-        self.__postal_code = None
+    def __init__(self, country=None, street_address=None, apt=None, suburb=None, city=None, province=None, postal_code=None):
+        self.__country = country
+        self.__street_address = street_address
+        self.__apt = apt
+        self.__suburb = suburb
+        self.__city = city
+        self.__province = province
+        self.__postal_code = postal_code
 
     def edit_location(self, location):
         self.__country = location[0]
@@ -170,6 +170,9 @@ class Location:
         self.__city = location[4]
         self.__province = location[5]
         self.__postal_code = location[6]
+        
+    def get_country(self):
+        return self.__country
 
     @property
     def country(self):
@@ -261,20 +264,25 @@ class Course:
         self.__exam.append(exam)
 
 class Payment:
-    def __init__(self, payment_id, type, timestamp):
+    def __init__(self, payment_id, type, timestamp, location:Location):
         self.__payment_id = payment_id
         self.__type = type
         self.__timestamp = timestamp
-        self.__location = None
+        self.__location = location
         
     @property
     def timestamp(self):
         return self.__timestamp
     
     @property
+    def type(self):
+        return self.__type
+    
+    @property
     def location(self):
         return self.__location
     
+    @location.setter
     def location(self, location):
         self.__location = location
     
@@ -306,6 +314,7 @@ class Order:
     def order_status(self):
         return self.__order_status
     
+    @payment_detail.setter
     def payment_detail(self, payment_detail):
         self.__payment_detail = payment_detail
         
@@ -383,9 +392,9 @@ def pao_test():
     order1 = Order("1", 1000, app.search_course("1"))
     order2 = Order("2", 1000, app.search_course("2"))
     
-    Order.payment_detail = Payment("1", "Credit Card", "2021-10-10 10:00:00")
-    Order.payment_detail = Payment("2", "Credit Card", "2021-10-10 10:00:00")
-    
+    order1.payment_detail = Payment("1", "Credit Card", "2021-10-10 10:00:00", Location("USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"))
+    order2.payment_detail = Payment("2", "Credit Card", "2021-10-10 10:00:00", Location("USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"))
+
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)
     

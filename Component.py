@@ -171,7 +171,7 @@ def display_account_details_component():
             H2("Account Details", style="text-align:left;color:inherit;"),
             Img(
                 src="./image/edit.png",
-                style="width: 30px; height: 30px; cursor: pointer;",
+                style="width: 30px; height: 30px; cursor: pointer;margin-left:10px;",
                 hx_get="/account-details-edit",
                 hx_target="#main-content",
             ),
@@ -220,7 +220,7 @@ def edit_account_details_component():
             H2("Account Details", style="text-align:left;color:inherit;"),
             Img(
                 src="./image/edit.png",
-                style="width: 30px; height: 30px; cursor: pointer;",
+                style="width: 30px; height: 30px; cursor: pointer;margin-left:10px;",
                 hx_get="/account-details-back-from-edit",
                 hx_target="#main-content",
             ),
@@ -345,7 +345,7 @@ def display_order_info_component(order):
     return (
         Div(
             H2(  # display order id in element according to url id
-                f"Course ID {order.id} - {order.course.title}",
+                f"Course ID {order.course.id} - {order.course.title}",
                 style="text-align:left;color:inherit;",
             ),
             style="display:flex;",
@@ -361,13 +361,13 @@ def display_order_info_component(order):
                     ), style="text-align:center; background-color:white;color:black;"
                 ),
             ),
-            Tr(Th("Order ID:", style="text-align:left;background-color:white;color:black;"), Td("12345", style="text-align:center; background-color:white;color:black;")),
-            Tr(Th("Order Date:", style="text-align:left;background-color:white;color:black;"), Td("XX:XX XX/XX/XXXX", style="text-align:center; background-color:white;color:black;")),
-            Tr(Th("Purchase Method:", style="text-align:left;background-color:white;color:black;"), Td("Bank", style="text-align:center; background-color:white;color:black;")),
-            Tr(Th("Total:", style="text-align:left;background-color:white;color:black;"), Td("3,600.00 THB", style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Order ID:", style="text-align:left;background-color:white;color:black;"), Td(order.id, style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Order Date:", style="text-align:left;background-color:white;color:black;"), Td(order.payment_detail.timestamp, style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Purchase Method:", style="text-align:left;background-color:white;color:black;"), Td(order.payment_detail.type, style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Total:", style="text-align:left;background-color:white;color:black;"), Td(f"{order.total_money} THB", style="text-align:center; background-color:white;color:black;")),
             Tr(
                 Th("Address:", style="text-align:left;background-color:white;color:black;"),
-                Td("1 Chalong Krung 1 Alley, Lat Krabang, Bangkok 10520", style="text-align:center; background-color:white;color:black;"),
+                Td(f"{order.payment_detail.location.street_address}, {order.payment_detail.location.apt}, {order.payment_detail.location.suburb}, {order.payment_detail.location.city}, {order.payment_detail.location.province}, {order.payment_detail.location.postal_code}, {order.payment_detail.location.country}", style="text-align:center; background-color:white;color:black;"),
             ),
             style="width:100%; border-collapse:collapse;",
         ),
