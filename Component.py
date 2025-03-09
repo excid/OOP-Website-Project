@@ -323,19 +323,53 @@ def display_order_history_component():
                         style="text-align:center;background-color:white;color:black;",
                     ),
                     Td(
-                        order.datetime,
+                        order.payment_detail.timestamp,
                         style="text-align:center;background-color:white;color:black;",
                     ),
                     Td(
                         A(
                             "View Info",
                             style="text-align:center; background-color:white",
+                            href="/orders&order_id=" + str(order.id),
                         ),
                         style="text-align:center; background-color:white",
                     ),
                 )
                 for order in order_history
             ],
+        ),
+    )
+
+
+def display_order_info_component(order):
+    return (
+        Div(
+            H2(  # display order id in element according to url id
+                f"Course ID {order.id} - {order.course.title}",
+                style="text-align:left;color:inherit;",
+            ),
+            style="display:flex;",
+        ),
+        Hr(),
+        Table(
+            Tr(
+                Th("Delivery Detail:", style="text-align:left;background-color:white;color:black;"),
+                Td(
+                    Span(
+                        "Currently shipping",
+                        style="background-color:#f8d7da; color:red; padding:5px 10px; border-radius:10px;",
+                    ), style="text-align:center; background-color:white;color:black;"
+                ),
+            ),
+            Tr(Th("Order ID:", style="text-align:left;background-color:white;color:black;"), Td("12345", style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Order Date:", style="text-align:left;background-color:white;color:black;"), Td("XX:XX XX/XX/XXXX", style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Purchase Method:", style="text-align:left;background-color:white;color:black;"), Td("Bank", style="text-align:center; background-color:white;color:black;")),
+            Tr(Th("Total:", style="text-align:left;background-color:white;color:black;"), Td("3,600.00 THB", style="text-align:center; background-color:white;color:black;")),
+            Tr(
+                Th("Address:", style="text-align:left;background-color:white;color:black;"),
+                Td("1 Chalong Krung 1 Alley, Lat Krabang, Bangkok 10520", style="text-align:center; background-color:white;color:black;"),
+            ),
+            style="width:100%; border-collapse:collapse;",
         ),
     )
 

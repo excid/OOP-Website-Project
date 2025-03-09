@@ -30,6 +30,12 @@ class Account:
         
     def change_password(self, new_password):
         self.__password = new_password
+        
+    def search_order_in_order_history(self, id):
+        for order in self.__order_history:
+            if str(order.id) == str(id):
+                return order
+        return None
 
     @property
     def email(self):
@@ -259,14 +265,25 @@ class Payment:
         self.__payment_id = payment_id
         self.__type = type
         self.__timestamp = timestamp
+        self.__location = None
+        
+    @property
+    def timestamp(self):
+        return self.__timestamp
+    
+    @property
+    def location(self):
+        return self.__location
+    
+    def location(self, location):
+        self.__location = location
     
 class Order:
-    def __init__(self, id, total_money, course:Course, datetime, payment_detail:Payment):
+    def __init__(self, id, total_money, course:Course):
         self.__id = id
         self.__total_money = total_money
         self.__course = course
-        self.__datetime = datetime
-        self.__payment_detail = payment_detail
+        self.__payment_detail = None
         self.__order_status = "Pending"
         
     @property
@@ -286,13 +303,11 @@ class Order:
         return self.__payment_detail
     
     @property
-    def datetime(self):
-        return self.__datetime
-    
-    @property
     def order_status(self):
         return self.__order_status
-        
+    
+    def payment_detail(self, payment_detail):
+        self.__payment_detail = payment_detail
         
 
 class Platform:
@@ -365,8 +380,11 @@ def pao_test():
     course2 = Course("C", "2", 1000)
     app.add_course(course2)
     
-    order1 = Order("1", 1000, app.search_course("1"), "1-1-2025", Payment("1", "Credit Card", "2021-03-01"))
-    order2 = Order("2", 1000, app.search_course("2"), "3-2-2025", Payment("1", "Credit Card", "2021-03-01"))
+    order1 = Order("1", 1000, app.search_course("1"))
+    order2 = Order("2", 1000, app.search_course("2"))
+    
+    Order.payment_detail = Payment("1", "Credit Card", "2021-10-10 10:00:00")
+    Order.payment_detail = Payment("2", "Credit Card", "2021-10-10 10:00:00")
     
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)
