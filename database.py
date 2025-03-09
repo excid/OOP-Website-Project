@@ -314,6 +314,10 @@ class Order:
     def order_status(self):
         return self.__order_status
     
+    @order_status.setter
+    def order_status(self, value):
+        self.__order_status = value
+    
     @payment_detail.setter
     def payment_detail(self, payment_detail):
         self.__payment_detail = payment_detail
@@ -389,11 +393,13 @@ def pao_test():
     course2 = Course("C", "2", 1000)
     app.add_course(course2)
     
-    order1 = Order("1", 1000, app.search_course("1"))
-    order2 = Order("2", 1000, app.search_course("2"))
+    order1 = Order("2", 1000, app.search_course("1"))
+    order2 = Order("1", 1000, app.search_course("2"))
     
     order1.payment_detail = Payment("1", "Credit Card", "2021-10-10 10:00:00", Location("USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"))
     order2.payment_detail = Payment("2", "Credit Card", "2021-10-10 10:00:00", Location("USA", "123 Main St", "Apt 4B", "Suburb", "New York", "NY", "10001"))
+    
+    order2.order_status="Accepted"
 
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)

@@ -46,7 +46,7 @@ def navbar_component():
                 "padding: 10px 20px; background-color: #fff; border-bottom: 1px;"
             ),
         ),
-        style="width: 100%;",
+        style="width: 100%;-webkit-user-select: none; -ms-user-select: none; user-select: none;",
     )
 
 
@@ -77,7 +77,7 @@ def opened_account_dropdown():
                     style="width: 10px; height: 5px; margin-right: 5px;",
                 ),
                 "My Account",
-                style="padding: 10px; text-decoration: none; color: inherit; cursor: pointer;",
+                style="padding: 10px; text-decoration: none; color: inherit; cursor: pointer; ",
             ),
             Div(
                 # Dropdown menu (Initially hidden)
@@ -335,7 +335,9 @@ def display_order_history_component():
                         style="text-align:center; background-color:white",
                     ),
                 )
-                for order in order_history
+                for order in sorted(
+                    order_history, key=lambda order: order.id, reverse=True
+                )
             ],
         ),
     )
@@ -353,21 +355,70 @@ def display_order_info_component(order):
         Hr(),
         Table(
             Tr(
-                Th("Delivery Detail:", style="text-align:left;background-color:white;color:black;"),
+                Th(
+                    "Delivery Detail:",
+                    style="text-align:left;background-color:white;color:black;",
+                ),
                 Td(
                     Span(
-                        "Currently shipping",
-                        style="background-color:#f8d7da; color:red; padding:5px 10px; border-radius:10px;",
-                    ), style="text-align:center; background-color:white;color:black;"
+                        order.order_status,
+                        
+                        style="background-color:#d4edda; color:green; padding:5px 10px; border-radius:10px;" if order.order_status == "Accepted" 
+                        else "background-color:#f8d7da; color:red; padding:5px 10px; border-radius:10px;" 
+                        
+                    ),
+                    style="text-align:center; background-color:white;color:black;",
                 ),
             ),
-            Tr(Th("Order ID:", style="text-align:left;background-color:white;color:black;"), Td(order.id, style="text-align:center; background-color:white;color:black;")),
-            Tr(Th("Order Date:", style="text-align:left;background-color:white;color:black;"), Td(order.payment_detail.timestamp, style="text-align:center; background-color:white;color:black;")),
-            Tr(Th("Purchase Method:", style="text-align:left;background-color:white;color:black;"), Td(order.payment_detail.type, style="text-align:center; background-color:white;color:black;")),
-            Tr(Th("Total:", style="text-align:left;background-color:white;color:black;"), Td(f"{order.total_money} THB", style="text-align:center; background-color:white;color:black;")),
             Tr(
-                Th("Address:", style="text-align:left;background-color:white;color:black;"),
-                Td(f"{order.payment_detail.location.street_address}, {order.payment_detail.location.apt}, {order.payment_detail.location.suburb}, {order.payment_detail.location.city}, {order.payment_detail.location.province}, {order.payment_detail.location.postal_code}, {order.payment_detail.location.country}", style="text-align:center; background-color:white;color:black;"),
+                Th(
+                    "Order ID:",
+                    style="text-align:left;background-color:white;color:black;",
+                ),
+                Td(
+                    order.id,
+                    style="text-align:center; background-color:white;color:black;",
+                ),
+            ),
+            Tr(
+                Th(
+                    "Order Date:",
+                    style="text-align:left;background-color:white;color:black;",
+                ),
+                Td(
+                    order.payment_detail.timestamp,
+                    style="text-align:center; background-color:white;color:black;",
+                ),
+            ),
+            Tr(
+                Th(
+                    "Purchase Method:",
+                    style="text-align:left;background-color:white;color:black;",
+                ),
+                Td(
+                    order.payment_detail.type,
+                    style="text-align:center; background-color:white;color:black;",
+                ),
+            ),
+            Tr(
+                Th(
+                    "Total:",
+                    style="text-align:left;background-color:white;color:black;",
+                ),
+                Td(
+                    f"{order.total_money} THB",
+                    style="text-align:center; background-color:white;color:black;",
+                ),
+            ),
+            Tr(
+                Th(
+                    "Address:",
+                    style="text-align:left;background-color:white;color:black;",
+                ),
+                Td(
+                    f"{order.payment_detail.location.street_address}, {order.payment_detail.location.apt}, {order.payment_detail.location.suburb}, {order.payment_detail.location.city}, {order.payment_detail.location.province}, {order.payment_detail.location.postal_code}, {order.payment_detail.location.country}",
+                    style="text-align:center; background-color:white;color:black;",
+                ),
             ),
             style="width:100%; border-collapse:collapse;",
         ),
