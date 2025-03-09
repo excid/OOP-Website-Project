@@ -103,9 +103,9 @@ def opened_account_dropdown():
 
 def password_no_popup_component():
     return Div(
-        Div(
+        A(
             "Change Password",
-            style="color:blue; text-decoration:underline; cursor:pointer; width: 130px; text-align: left;",
+            style="width: 130px; text-align: left;",
             hx_get="/change-password",
             hx_target="#password-popup",
         ),
@@ -115,9 +115,9 @@ def password_no_popup_component():
 
 def change_password_component():
     return Div(
-        Div(
+        A(
             "Change Password",
-            style="color:blue; text-decoration:underline; cursor:pointer; width: 130px; text-align: left;",
+            style="width: 130px; text-align: left;",
             hx_get="/back-from-change-password",
             hx_target="#password-popup",
         ),
@@ -327,8 +327,11 @@ def display_order_history_component():
                         style="text-align:center;background-color:white;color:black;",
                     ),
                     Td(
-                        "View Info",
-                        style="text-align:center; color:blue; cursor:pointer; background-color:white",
+                        A(
+                            "View Info",
+                            style="text-align:center; background-color:white",
+                        ),
+                        style="text-align:center; background-color:white",
                     ),
                 )
                 for order in order_history
