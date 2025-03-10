@@ -92,7 +92,7 @@ def opened_account_dropdown():
                     href="/account-details",
                     style="display: block; padding: 5px; text-decoration: none; color: black;",
                 ),
-                style="position: absolute; border: 1px solid black; border-radius: 5px; width: 150px; margin-left:-10px; margin-top: 20px;",
+                style="background-color:white; position: absolute; border: 1px solid black; border-radius: 5px; width: 150px; margin-left:-10px; margin-top: 20px;",
             ),
             style="position: relative; margin-right: 30px;",
             hx_get="/close-account-dropdown",
@@ -362,10 +362,11 @@ def display_order_info_component(order):
                 Td(
                     Span(
                         order.order_status,
-                        
-                        style="background-color:#d4edda; color:green; padding:5px 10px; border-radius:10px;" if order.order_status == "Accepted" 
-                        else "background-color:#f8d7da; color:red; padding:5px 10px; border-radius:10px;" 
-                        
+                        style=(
+                            "background-color:#d4edda; color:green; padding:5px 10px; border-radius:10px;"
+                            if order.order_status == "Accepted"
+                            else "background-color:#f8d7da; color:red; padding:5px 10px; border-radius:10px;"
+                        ),
                     ),
                     style="text-align:center; background-color:white;color:black;",
                 ),
@@ -423,7 +424,6 @@ def display_order_info_component(order):
             style="width:100%; border-collapse:collapse;",
         ),
     )
-
 
 def setup_routes(rt):
     @rt("/open-account-dropdown")

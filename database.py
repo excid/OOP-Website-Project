@@ -233,6 +233,10 @@ class Course:
         return self.__title
     
     @property
+    def price(self):
+        return self.__price
+    
+    @property
     def id(self):
         return self.__id
     
@@ -404,7 +408,7 @@ def pao_test():
     sample_account.add_order_history(order1)
     sample_account.add_order_history(order2)
     
-    
 pao_test()
 account = app.search_account("1")
+course = app.search_course("1")
 order_history = account.order_history
