@@ -123,7 +123,7 @@ def hero_section():
                 ),
                 style="padding-right:60px;"
             ),
-            style="display: flex; color: black; gap: px;",
+            style="display: flex; color: black;",
         ),
         style="display: flex; justify-content: center; align-items: center; height: 100vh; color:black;",
     )
@@ -148,7 +148,7 @@ def hot_selling_courses():
                     "a {text-decoration: none; color: white;}"
                     "a:hover {text-decoration: none; color: white;}"
                 ),
-                Style="background-color: #ffffff; width: 100%; height: 100%;margin: 0; padding: 0;",
+                Style="background-color: #ffffff; width: 100%; height: 30%;margin: 0; padding: 0;",
             ),
             Button(
                 "View All Products",
