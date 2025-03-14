@@ -7,11 +7,9 @@ def setup_routes(rt):
     @rt('/course/quiz')
     def quiz_get(request):
         global exam
-        course_id = request.query_params.get("course_id")
         exam_id = request.query_params.get("exam_id")
-        account_id = request.query_params.get("account_id")
-        print(course_id, exam_id)
-        exam = get_exam(course_id, exam_id, account_id)
+        print(exam_id)
+        exam = get_exam(exam_id)
         
         return Div(
             Div(

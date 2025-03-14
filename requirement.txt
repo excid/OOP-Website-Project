@@ -1,0 +1,8 @@
+requirement
+fastapi
+python-fasthtml
+เอา Video ใส่ folder ชื่อ Vids
+
+installation
+เปิดโดยรันไฟล์ main.py ผ่าน Vs code หรือ Cmd
+python.exe main.py

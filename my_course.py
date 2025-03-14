@@ -1,12 +1,15 @@
 from fasthtml.common import *
 from dataclasses import dataclass
 from typing import List
-from controller import get_account_course
+from controller import get_account_course, get_account
+from component import navbar_component
 
 
 def setup_routes(rt):
-    @rt('/course')
+    @rt('/my-course')
     def course_get(request):
+        if get_account() is None:
+            return RedirectResponse(url="/login")
         search_form = Form(
                              Label(
                                     Input(type="search", placeholder="search", cls="search"),
@@ -17,10 +20,9 @@ def setup_routes(rt):
                         )
 
         #account_id =  request.query_params.get("account_id")
-        account_id = "1"
-        courses = get_account_course(account_id)
-        return Container(
-                    Header( 
+        courses = get_account_course()
+        return navbar_component(), Div(
+                    Header(
                             Header( 
                                 Div(
                                     Div(
@@ -51,8 +53,8 @@ def setup_routes(rt):
                                     Progress(value=course.progress, max=100, style="width: 80%; height: 8px; border-radius: 5px; display: block; margin: auto; margin-bottom: 10px"),
                                     Div(   
                                         H5(
-                                            A("VIEW INFO", href=f"/course/course_info/?course_id={course.id}", cls="button"),"\t",
-                                            A("Continue", href=f"/course/view_video/?course_id={course.id}&account_id={account_id}", cls="button")
+                                            A("VIEW INFO", href=f"/course_info/{course.id}", cls="button"),"\t",
+                                            A("Continue", href=f"/course/view_video/?course_id={course.id}", cls="button")
                                         ),
                                         Style="text-align: center;margin = auto;"
                                     ),

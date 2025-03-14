@@ -1,11 +1,14 @@
 from fasthtml.common import *
 from fastapi import FastAPI, Request, Form, status
 import component
-from database import account, order_history
+from controller import get_account
+
+
 
 def account_details_page():
     # Render the account details
     return Div(
+        component.navbar_component(),
         Header(
             "View Details",
             style="font-weight: 600; text-align:center; font-size: 30px;",
